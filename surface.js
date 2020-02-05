@@ -43,4 +43,3 @@ Sphere.prototype.intersect = function({origin, direction}) {
     return new Hit(this, (-B - Math.sqrt(discriminant)) / A);
   }
 };
-

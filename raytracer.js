@@ -23,9 +23,9 @@ export function Scene(surface) {
 /* Generate viewing ray through the pixel with given coordinates */
 Scene.prototype.project = function(i, j) {
   // TODO compute u and v
-  const top = d * Math.tan(fov));
+  const top = d * (Math.tan(fov));
   const right = top * aspect;
-  const bottom = -d * Math.tan(fov));
+  const bottom = -d * (Math.tan(fov));
   const left = -(top * aspect);
   const u = left + (right - left)(i + 0.5)/ this.image.width;
   const v = bottom + (top - bottom)(j + 0.5)/ this.image.height;
