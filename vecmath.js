@@ -1,6 +1,6 @@
 /** Vector arithmetic and operations. */
 
-export function norm(a){
+export function norm(a) {
   const magnitude = Math.sqrt(dot(a, a));
   return a.map(ai => ai / magnitude);
 }

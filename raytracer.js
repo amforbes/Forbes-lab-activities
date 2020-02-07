@@ -1,6 +1,8 @@
 import {degreesToRadians} from "./genmath.js";
 import * as Vec from "./vecmath.js";
 
+
+
 /* Scene representation */
 export function Scene(surface) {
   this.image = document.getElementById("viewport"); // HTML5 canvas element serving as render buffer
@@ -23,16 +25,16 @@ export function Scene(surface) {
 /* Generate viewing ray through the pixel with given coordinates */
 Scene.prototype.project = function(i, j) {
   // TODO compute u and v
-  const top = d * (Math.tan(fov));
-  const right = top * aspect;
-  const bottom = -d * (Math.tan(fov));
-  const left = -(top * aspect);
-  const u = left + (right - left)(i + 0.5)/ this.image.width;
-  const v = bottom + (top - bottom)(j + 0.5)/ this.image.height;
+  const top = this.camera.d * (Math.tan(this.camera.fov));
+  const right = top * this.camera.aspect;
+  const bottom = -this.camera.d * (Math.tan(this.camera.fov));
+  const left = (-1) * (top * this.camera.aspect);
+  const u = left + (right - left) * (i + 0.5)/ this.image.width;
+  const v = bottom + (top - bottom) * (j + 0.5)/ this.image.height;
 
   return {
     // TODO use u and v to compute the ray direction
-    direction: Vec.add(Vec.mult(-d, this.camera.w),  Vec.mult(u, this.camera.u), Vec.mult(v, this.camera.v)),
+    direction: Vec.add(Vec.add(Vec.mult(-this.camera.d, this.camera.w),  Vec.mult(u, this.camera.u)), Vec.mult(v, this.camera.v)),
       
     // TODO ray origin for perspective viewing is just the eye position
     origin: this.camera.e
@@ -43,7 +45,10 @@ Scene.prototype.project = function(i, j) {
 Scene.prototype.shade = function(hit) {
   // TODO In the event of a hit return the color of the intersecting object.
   //  Otherwise return the background color.
-  return this.backgroundColor;
+  if (hit)
+      return hit.object.color;
+  else
+      return this.backgroundColor;
 };
 
 /* Basic ray tracing algorithm. */
@@ -51,8 +56,8 @@ Scene.prototype.trace = function() {
   for (let j = 0; j < this.image.height; j++)
     for (let i = 0; i < this.image.width; i++) {
       // TODO Use the appropriate methods to implement the algorithm.
-      const ray   = undefined;
-      const hit   = undefined;
+      const ray   = this.project(i,j);
+      const hit   = this.surface.intersect(ray);
       // Set the pixel color in the render buffer
       this.image.getContext("2d").fillStyle = arrayToColor(this.shade(hit));
       this.image.getContext("2d").fillRect(i, j, 1, 1);

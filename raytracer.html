@@ -64,7 +64,7 @@
       surfaces.addSurface(new Sphere([-0.3, -0.2, -2], 0.3, [1.0, 0.5, 0.6]));
       surfaces.addSurface(new Sphere([1.1, 0.3, -2.5], 0.2, [0.5, 1.0, 0.6]));
 
-      const scene = new Scene(surfaces);
+      const scene = new Scene(new Sphere([0, 0, -2.5], 0.75, [0.6, 0.5, 1.0]));
       scene.trace();
 
       // save canvas image as data url (png format by default)
