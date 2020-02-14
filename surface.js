@@ -1,10 +1,12 @@
 import * as Vec from "./vecmath.js";
 
 /* Hit record structure */
-function Hit(obj, t) {
+function Hit(obj, t, ray) {
   this.object = obj;
   this.t = t;
+  this.ray = ray;
 }
+
 
 /* Representation of a group of surfaces */
 
@@ -13,9 +15,13 @@ export function Group() {
 }
 
 Group.prototype.intersect = function(ray) {
-  // TODO Intersect the ray with all objects in this group
-  //  and return the nearest hit (smallest value for t)
-  undefined;
+    var i;
+    var nearestHit;
+    for(i = 0; i in this.surfaces; i++) 
+      if (this.surfaces[i].intersect(ray))
+          nearestHit = this.surfaces[i].intersect(ray);
+return nearestHit; 
+          
 };
 
 Group.prototype.addSurface = function(s) {
@@ -24,10 +30,17 @@ Group.prototype.addSurface = function(s) {
 
 /* Representation of spherical surface */
 
-export function Sphere(center, radius, color) {
+export function Sphere(center, radius, color, shine) {
   this.center = center;
   this.radius = radius;
   this.color  = color;
+  this.shine = 1000;
+}
+
+/* new shit*/
+Sphere.prototype.normal = function(p){
+    return Vec.norm(Vec.diff(p, this.center));
+    
 }
 
 Sphere.prototype.intersect = function({origin, direction}) {
@@ -42,7 +55,7 @@ Sphere.prototype.intersect = function({origin, direction}) {
   
     // TODO Check whether intersection exists and return an appropriate Hit object
   if (discriminant >= 0) {
-    return new Hit(this, (-B - Math.sqrt(discriminant)) / A);
+    return new Hit(this, (-B - Math.sqrt(discriminant))/ (2 * A)) ;
   }
 };
 

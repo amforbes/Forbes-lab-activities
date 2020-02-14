@@ -10,7 +10,7 @@ export function Scene(surface) {
   this.backgroundColor = [0.5, 0.5, 0.5]; // default background color when no intersection is found
   this.camera = { // simple definition for a linear-perspective viewer
     aspect: this.image.width / this.image.height,
-    fov: degreesToRadians(60),
+    fov: degreesToRadians(60)/2,
     // eye/camera position
     e: [ 0, 0, 0 ],
     // basis vector for camera coordinate frame
@@ -19,6 +19,10 @@ export function Scene(surface) {
     w: [ 0, 0, 1 ],
     // distance to the image/view plane
     d: 1
+    
+    
+    
+    
   };
 }
 
@@ -41,12 +45,21 @@ Scene.prototype.project = function(i, j) {
   };
 };
 
+
+
 /* Compute the shaded color for the given object intersection. (For now, this is just a solid color.) */
 Scene.prototype.shade = function(hit) {
   // TODO In the event of a hit return the color of the intersecting object.
   //  Otherwise return the background color.
+  //light source
+   
+    
   if (hit)
-      return hit.object.color;
+      lightcolor: [1, 1, 1];
+      lightorigin: [10, 15, 20];
+      l: 
+      p: Vec.add(hit.ray.origin, Vec.mult(this.hit.t, hit.ray.direction))
+      return hit.object.color;  
   else
       return this.backgroundColor;
 };
