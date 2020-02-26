@@ -54,14 +54,15 @@ Scene.prototype.shade = function(hit) {
   //light source
    
     
-  if (hit)
+  if (this.hit)
       lightcolor: [1, 1, 1];
       lightorigin: [10, 15, 20];
       l: 
-      p: Vec.add(hit.ray.origin, Vec.mult(this.hit.t, hit.ray.direction))
+      p: Vec.add(this.origin, Vec.mult(this.nearestHit, this.direction))
+      
       return hit.object.color;  
-  else
-      return this.backgroundColor;
+  /*else
+      return this.backgroundColor;*/
 };
 
 /* Basic ray tracing algorithm. */
